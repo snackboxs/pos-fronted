@@ -1,0 +1,7 @@
+th, td {
+   border: 1px solid lightgray;
+   padding: 5px;
+}
+tr:hover {
+   background-color: lightgray;
+}

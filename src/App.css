@@ -1,0 +1,64 @@
+/* Custom CSS Class ကို ဖန်တီးပါ */
+.hide-scrollbar {
+   /* Chrome, Safari, and Opera အတွက် */
+   -ms-overflow-style: none; /* IE and Edge အတွက် */
+   scrollbar-width: none; /* Firefox အတွက် */
+}
+
+/* WebKit browsers တွေ (Chrome, Safari, Opera) အတွက် Scroll Bar ကို ဖျောက်ရန် */
+.hide-scrollbar::-webkit-scrollbar {
+   display: none;
+}
+
+/* globals.css (သို့မဟုတ် သင့်ရဲ့ main CSS file) ထဲမှာ ထည့်ပါ */
+
+.thin-scrollbar {
+   overflow: auto;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+   width: 5px;
+   height: 5px;
+   background-color: transparent;
+}
+
+/* Scroll Bar ရဲ့ လက်ကိုင် (thumb) ကို ပုံစံသတ်မှတ်ခြင်း */
+.thin-scrollbar::-webkit-scrollbar-thumb {
+   background-color: #a0a0a0;
+   border-radius: 10px;
+   /* border: 5px solid transparent; */
+
+   /* 2. background-color (#a0a0a0) ဟာ border area ထဲ မဝင်အောင် ကန့်သတ်ပါ။ */
+   /* background-clip: content-box; */
+}
+
+/* Scroll Bar ရဲ့ အောက်ခံ (track) ကို ပုံစံသတ်မှတ်ခြင်း */
+.thin-scrollbar::-webkit-scrollbar-track {
+   background: #f0f0f0; /* အဖြူနုရောင် */
+}
+.thin-scrollbar::-webkit-scrollbar-button {
+   display: none;
+   width: 0;
+   height: 0;
+}
+
+.dot-divider {
+   height: 1px;
+   border-top: 1px dotted #333;
+   margin: 5px 0;
+}
+
+.dot-divider-dashed {
+   height: 1px;
+   border-top: 1px dashed #333;
+   margin: 5px 0;
+}
+
+.moreicon {
+   white-space: nowrap; /* one line */
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* 2 လိုင်းပဲ ပြဖို့ ကန့်သတ်ထားခြင်း */
+   -webkit-box-orient: vertical;
+}
