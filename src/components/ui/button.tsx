@@ -19,7 +19,11 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        posDefault: " bg-green-600 hover:bg-green-700 active:bg-green-600 text-white"
+        posDefault: " bg-green-600 hover:bg-green-700 active:bg-green-600 text-white",
+        myOutline: 
+        "hover:border hover:border-gray-400 cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50",
+        warning: 
+        "bg-red-500 hover:bg-red-700 text-primary-foreground cursor-pointer",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

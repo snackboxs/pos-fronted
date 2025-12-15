@@ -5,12 +5,20 @@ import {
    InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
-import { CircleX, DollarSign, SquarePen, ImagePlus } from "lucide-react";
+import { CircleX, DollarSign, SquarePen, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { auth } from "@/features/auth/authCheck";
-import { useAppSelector } from "@/hooks";
+import { Spinner } from "@/components/ui/spinner";
+import toast from "react-hot-toast";
+
+import {
+   selectStockData,
+   setStatusIdle,
+   selectCardData,
+} from "@/features/data/backendDataSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 
 interface MenuData {
    menuName: string;
@@ -73,13 +81,19 @@ export default function AddNewItem() {
    const isAuth = useAppSelector(auth);
    const token = isAuth.token;
    const [error, setError] = useState(false);
+   const [loading, setLoading] = useState(false);
+   const { status: s } = useAppSelector(selectStockData);
+   const { status: c } = useAppSelector(selectCardData);
+   const dispatch = useAppDispatch();
 
    const {
       register,
       handleSubmit,
       reset,
       formState: { errors },
-   } = useForm<MenuData>();
+   } = useForm<MenuData>({
+      defaultValues: { menuName: "Name" },
+   });
 
    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0]; // first selected file
@@ -96,6 +110,7 @@ export default function AddNewItem() {
 
    const onSubmit = async (data: MenuData) => {
       console.log("posting data statt");
+      setLoading(true);
 
       try {
          const res = await fetch(`/api/admin/menu`, {
@@ -117,6 +132,7 @@ export default function AddNewItem() {
             const msg = await res.json();
             console.log(msg);
             setError(true);
+            setLoading(false);
             return; // early exit
          }
 
@@ -150,11 +166,22 @@ export default function AddNewItem() {
             const imgMsg = await imgres.json();
             console.log("Image upload error:", imgMsg);
             setError(true);
+            setLoading(false);
             return;
          }
          const resultdata = await imgres.json();
          console.log(resultdata);
+         setLoading(false);
+         toast("Done", {
+            icon: <Check />,
+            duration: 3000,
+            position: "top-center",
+            style: {
+               color: "green",
+            },
+         });
 
+         dispatch(setStatusIdle());
          reset();
          setImageFile(null);
          setImageSrc(undefined);
@@ -211,6 +238,7 @@ export default function AddNewItem() {
                      <MyInputGroup>
                         <InputGroupInput
                            type="number"
+                           value={12}
                            min={0} // CHANGE: min added
                            id="price"
                            {...register("price", { required: true })}
@@ -226,6 +254,7 @@ export default function AddNewItem() {
                      <MyLabel lablename="Description" />
                      <MyInputGroup>
                         <InputGroupTextarea
+                           value={"Note"}
                            {...register("description", { required: true })}
                         />
                         <MyIconButton
@@ -241,6 +270,7 @@ export default function AddNewItem() {
                            type="number"
                            min={0} // CHANGE: min added
                            id="quantity"
+                           value={12}
                            {...register("quantity", { required: true })}
                         />
                         <InputGroupAddon>
@@ -255,6 +285,7 @@ export default function AddNewItem() {
                      <MyInputGroup>
                         <InputGroupInput
                            type="text"
+                           value={"C002"}
                            id="categoryId" // CHANGE: unique id
                            {...register("categoryId", { required: true })}
                         />
@@ -275,10 +306,11 @@ export default function AddNewItem() {
 
                   <Button
                      type="submit"
+                     disabled={loading}
                      className="absolute right-0 mt-15 w-[100px] cursor-pointer shadow-md"
                      variant={"posDefault"}
                   >
-                     Save
+                     {loading ? <Spinner /> : "Save"}
                   </Button>
                </div>
             </form>

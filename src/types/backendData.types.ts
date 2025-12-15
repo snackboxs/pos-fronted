@@ -37,53 +37,7 @@ export interface MenuData {
    discounts: Discount[];
 }
 
-// // Pagination Wrapper
-// export interface MenuPagination {
-//    content: MenuData[];
-//    page: number;
-//    size: number;
-//    totalElements: number;
-//    totalPages: number;
-// }
-
-// // Final API Structure
-// export interface MenuApiResponse {
-//    timestamp: string;
-//    status: number;
-//    message: string;
-//    data: MenuPagination;
-// }
-
-// export interface FetchMenusParams {
-//    scope: "card" | "stock";
-//    page: number;
-//    size: number;
-// }
-// export type Status = "idle" | "loading" | "succeeded" | "failed";
-
-// export interface MenuState {
-//    menuList: MenuData[];
-//    status: Status;
-//    error: string | null;
-//    page: number;
-//    size: number;
-//    totalElements: number;
-//    totalPages: number;
-// }
 export type Status = "idle" | "loading" | "succeeded" | "failed";
-
-// export interface MenuData {
-//    menuId: number;
-//    menuName: string;
-//    price: number;
-//    imageUrl: string;
-//    inventory: {
-//       quantity: number;
-//    };
-//    category: {
-//       categoryName: string;
-//    };
-// }
 
 export interface MenuPagination {
    content: MenuData[];

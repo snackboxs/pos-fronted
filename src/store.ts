@@ -3,9 +3,8 @@ import { themeSlice } from "./features/theme/themeSlice";
 import pageReducer from "./features/page/pageSlice";
 import { authCheck } from "./features/auth/authCheck";
 import itemSelectedReducer from "./features/itemSelected/itemSelectedSlice";
-// import { dataSlice } from "./features/data/dataSlice";
-// import { stockDataSlice } from "./features/data/stockDataSlice";
 import { dataSlice } from "./features/data/backendDataSlice";
+import { datleHandleSlice } from "./features/data/dataHandleSlice";
 
 export const store = configureStore({
    reducer: {
@@ -14,7 +13,7 @@ export const store = configureStore({
       auth: authCheck.reducer,
       itemSelected: itemSelectedReducer,
       data: dataSlice.reducer,
-      // stockData: stockDataSlice.reducer,
+      dataHandle: datleHandleSlice.reducer,
    },
 });
 

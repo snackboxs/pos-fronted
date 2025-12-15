@@ -1,13 +1,13 @@
-th, td {
+.th, .td {
    padding: 5px;
 }
-th {
+.th {
    background-color: rgb(219, 219, 219);
 }
-tr:hover {
-   background-color: rgb(219, 219, 219);
+.tr:hover {
+   background-color: rgb(233, 233, 233);
 }
-td > img {
+.td > img {
    height: 40px;
    width: 40px;
    object-fit: cover;

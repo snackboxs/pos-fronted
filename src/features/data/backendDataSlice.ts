@@ -31,7 +31,7 @@ const initialState: MenuState = {
 
 export const fetchMenus = createAsyncThunk<
    { scope: "card" | "stock"; data: MenuPagination },
-   FetchMenusParams,
+   FetchMenusParams & { reset?: boolean },
    { rejectValue: string; state: RootState }
 >(
    "productData/fetchMenus",
@@ -68,7 +68,7 @@ export const fetchMenus = createAsyncThunk<
          }
 
          const result: MenuApiResponse = await response.json();
-         console.log("API result:", result);
+         // console.log("API result:", result);
          return { scope, data: result.data };
       } catch (error: any) {
          return rejectWithValue(
@@ -108,6 +108,12 @@ export const dataSlice = createSlice({
          state.card.status = "idle";
          state.stock.status = "idle";
       },
+      setStockStatusIdle: (state) => {
+         state.stock.status = "idle";
+      },
+      setCardStatusIdle: (state) => {
+         state.card.status = "idle";
+      },
    },
    extraReducers: (builder) => {
       builder
@@ -125,7 +131,8 @@ export const dataSlice = createSlice({
 
             target.status = "succeeded";
 
-            if (scope === "stock") {
+            const reset = action.meta.arg.reset;
+            if (scope === "stock" && !reset) {
                const existingIds = new Set(
                   target.menuList.map((item) => item.menuId)
                );
@@ -155,7 +162,12 @@ export const dataSlice = createSlice({
    },
 });
 
-export const { setPaginationParams, setStatusIdle } = dataSlice.actions;
+export const {
+   setPaginationParams,
+   setStatusIdle,
+   setCardStatusIdle,
+   setStockStatusIdle,
+} = dataSlice.actions;
 
 export const selectCardData = (state: RootState) => state.data.card;
 export const selectStockData = (state: RootState) => state.data.stock;
