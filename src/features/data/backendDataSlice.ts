@@ -68,7 +68,7 @@ export const fetchMenus = createAsyncThunk<
          }
 
          const result: MenuApiResponse = await response.json();
-         // console.log("API result:", result);
+         console.log("API result:", result);
          return { scope, data: result.data };
       } catch (error: any) {
          return rejectWithValue(

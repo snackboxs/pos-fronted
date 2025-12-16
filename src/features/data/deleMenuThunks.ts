@@ -1,8 +1,5 @@
-import {
-   createAsyncThunk
-} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-
 import { auth } from "../auth/authCheck";
 
 export const deleteMenu = createAsyncThunk<
@@ -22,16 +19,16 @@ export const deleteMenu = createAsyncThunk<
       });
 
       console.log(response + "delete");
-      
+
       if (!response.ok) {
          const errorData = await response.json();
          return thunkAPI.rejectWithValue(errorData.message || "Delete failed");
       }
 
-      const res = await response.json();
-      console.log(res + 'result');
-      
-      return res;
+      // const res = await response.json();
+      // console.log(res + 'result');
+
+      return { menuId };
    } catch (error: any) {
       return thunkAPI.rejectWithValue(
          error.response?.data?.message || error.message

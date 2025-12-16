@@ -37,7 +37,7 @@ export interface MenuData {
    discounts: Discount[];
 }
 
-export type Status = "idle" | "loading" | "succeeded" | "failed";
+export type Status = "idle" | "loading" | "succeeded" | "failed"; 
 
 export interface MenuPagination {
    content: MenuData[];
