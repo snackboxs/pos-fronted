@@ -1,73 +1,103 @@
-# React + TypeScript + Vite
+# 🛒 POS System (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## ⭐ Overview
 
-Currently, two official plugins are available:
+This repository contains the complete **Front-End source code** for a modern Point-of-Sale (POS) System. The project is a comprehensive demonstration of my skills in front-end development, state management, and interaction with a separate, robust API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🟢 Project Status
 
-## React Compiler
+* **Status:** Ongoing / Under Active Development. New features and improvements are being added regularly.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Project Summary & Key Features (Frontend)
 
-## Expanding the ESLint configuration
+* **Developed:** A complete Point-of-Sale (POS) system.
+* **Core Functionalities:** Implemented functionalities for account login, product listing, creating, updating, and deleting product data.
+* **State Management:** Designed user-friendly interfaces and managed dynamic data using **Redux**.
+* **Workflow:** Practiced full **CRUD** operations and real-world application workflow in a **React-based environment**.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Frontend (This Repository)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | React |
+| **Language** | TypeScript, JavaScript |
+| **State Management** | Redux |
+| **Styling** | Tailwind, Shacdn, CSS, HTML |
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Backend (Separate Repository)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This application requires the following technologies for the API service:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* Java 17, Spring Boot 3.5.6
+* Spring Vault
+* Open Api Documentation
+* Redis
+* PostgreSQL
+* Docker
+
+---
+
+## 🔗 Backend Repository & Features Acknowledgment
+
+This Front-End application connects to a separate API/Backend service. The backend is maintained by another developer.
+
+* **Backend Repository:** `https://github.com/MyintMyatt/pos-backend.git`
+* **Backend Features:**
+    * Admin Section
+    * User Management
+    * Menu Management
+    * Inventory Management
+    * Report
+
+---
+
+## 🚀 Getting Started (Installation Guide)
+
+To run the full application, both the backend and frontend services must be running.
+
+### Prerequisites
+
+* Node.js (LTS version recommended) and npm/yarn
+* Java 17 and Docker (for the backend setup)
+
+### 1. Backend Setup
+
+You must clone and run the backend service first, following its repository instructions.
+
+1.  **Open your terminal (Bash/Command Prompt).**
+2.  **Clone the Backend repository:**
+    ```bash
+    git clone https://github.com/MyintMyatt/pos-backend.git
+    ```
+3.  **Navigate into the directory:**
+    ```bash
+    cd pos-backend
+    ```
+4.  **Run the service:**
+    * Follow instructions in the backend repo (https://github.com/MyintMyatt/pos-backend.git) to configure and run the service (e.g., using Docker or a local Java environment).
+
+### 2. Frontend Clone and Install
+
+1.  **While in your terminal, clone this repository:**
+    ```bash
+    git clone https://github.com/snackboxs/pos-fronted.git
+    ```
+2.  **Navigate into the new directory:**
+    ```bash
+    cd pos-system
+    ```
+3.  **Install dependencies:**
+    ```bash
+    npm install # or use yarn install
+    ```
+    **Run the Frontend Application:**
+    ```bash
+    npm run dev
+    ```
+## Thank You
+
+Thank you for taking the time to review this project. Your interest is greatly appreciated!
