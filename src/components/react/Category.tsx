@@ -10,9 +10,9 @@ interface BoxProps {
 
 function Box({ className, children, isActive, onClick }: BoxProps) {
    const baseClasses = "cursor-pointer min-w-25 h-30 rounded-xl p-3 shadow-md";
-   const activeClasses = "bg-green-200 shadow-lg hover:bg-green-300"; // active ဖြစ်ရင် ပေးမယ့် style
+   const activeClasses = "bg-green-700 shadow-lg hover:bg-green-800 text-white"; // active ဖြစ်ရင် ပေးမယ့် style
    const inactiveClasses =
-      "bg-white text-gray-800 hover:bg-gray-200 active:bg-gray-100"; // inactive ဖြစ်ရင် ပေးမယ့် style
+      "hover:bg-sidebar-accent bg-gray-200/10"; // inactive ဖြစ်ရင် ပေးမယ့် style
 
    return (
       <div

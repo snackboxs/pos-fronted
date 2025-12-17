@@ -2,7 +2,7 @@
    padding: 5px;
 }
 .th {
-   background-color: rgb(219, 219, 219);
+   background-color: rgba(148, 148, 148, 0.2);
 }
 .tr:hover {
    background-color: rgb(233, 233, 233);

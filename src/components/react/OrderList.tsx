@@ -1,5 +1,4 @@
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
 import {
    Item,
    ItemContent,
@@ -9,13 +8,6 @@ import {
    ItemTitle,
 } from "../ui/item";
 
-import {
-   CreditCard,
-   Banknote,
-   QrCode,
-   Quote,
-   type LucideIcon,
-} from "lucide-react";
 import Payment from "./Payment";
 import { itemSelected } from "../../features/itemSelected/itemSelectedSlice";
 import { useSelector } from "react-redux";
@@ -99,7 +91,7 @@ function ItemImage() {
                   variant="outline"
                   asChild
                   role="listitem"
-                  className="bg-white border-none"
+                  className="bg-gray-500/10 shadow-sm border-none"
                >
                   <a href="#">
                      <ItemMedia variant="default">
@@ -143,7 +135,7 @@ export default function OrderList() {
    return (
       <>
          <h2 className="text-xl font-semibold mb-4 p-2 mt-2">Table</h2>
-         <div className=" w-full p-2 flex-1 overflow-y-auto thin-scrollbar bg-gray-100">
+         <div className=" w-full p-2 flex-1 overflow-y-auto thin-scrollbar">
             <ItemImage />
          </div>
          <div className=" w-full bg-transparent p-4">
@@ -170,7 +162,7 @@ export default function OrderList() {
             <div className="grid grid-cols-3 gap-3 mt-3">
                <Payment />
             </div>
-            <Button className="w-full mt-5 bg-green-600 hover:bg-green-700 active:bg-green-600">
+            <Button className="w-full mt-5 text-white bg-green-600 hover:bg-green-700 active:bg-green-600">
                Place Order
             </Button>
          </div>

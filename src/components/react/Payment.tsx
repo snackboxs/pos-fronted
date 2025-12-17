@@ -32,9 +32,9 @@ export default function Payment() {
    const [activePaymentIndex, setActivePaymentIndex] = useState(0);
 
    const defaultStyle =
-      "border rounded-xl py-2 flex flex-col items-center mb-2 hover:bg-gray-200 cursor-pointer active:bg-gray-100";
-   const activeStyle = "bg-green-200 hover:bg-green-300";
-   const inActiveStyle = "bg-white";
+      "border rounded-xl py-2 flex flex-col items-center mb-2 cursor-pointer active:bg-gray-100";
+   const activeStyle = "bg-green-700 hover:bg-green-300 hover:bg-green-800 text-white";
+   const inActiveStyle = "bg-gray-200/10 hover:bg-gray-200/20";
 
    return (
       <>

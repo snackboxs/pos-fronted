@@ -12,10 +12,10 @@ export default function Dashboard({ children }: React.ComponentProps<"div">) {
    const isAuth = useSelector(auth);
    const location = useLocation();
 
-   const isHome = location.pathname === "/"
+   const isHome = location.pathname === "/";
 
    return (
-      <SidebarProvider className="bg-gray-100">
+      <SidebarProvider>
          <MySidebar />
          <div className="mx-2 flex-1 relative">
             <div className="flex flex-col relative h-full">

@@ -3,7 +3,6 @@ import Dashboard from "./Dashboard";
 import DashboardProvider from "../components/react/DashboardProvider";
 import { useAppSelector } from "@/hooks";
 import { auth } from "@/features/auth/authCheck";
-import { useEffect } from "react";
 
 export default function Home() {
    const isAuth = useAppSelector(auth);

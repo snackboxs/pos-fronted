@@ -44,6 +44,7 @@ import { dataHandle, resetStatus } from "@/features/data/dataHandleSlice";
 import { setCardStatusIdle } from "@/features/data/backendDataSlice";
 import { useForm } from "react-hook-form";
 import { updateMenu } from "@/features/data/updateMenuThunks";
+import { theme } from "@/features/theme/themeSlice";
 
 interface StockData {
    name: string;
@@ -60,6 +61,7 @@ export default function Stock() {
    const [data, setData] = useState<MenuData[]>([]);
    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
    const [showEditDialog, setShowEditDialog] = useState(false);
+   const currentTheme = useAppSelector(theme);
    const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(
       undefined
    );
@@ -178,33 +180,38 @@ export default function Stock() {
       }
    }, [deleteStatus, deleteError]);
 
+   // style for table
+   const borderstyle =
+      currentTheme === "light"
+         ? "border border border-gray-300"
+         : "border border-gray-300/20";
    return (
       <>
          <div> </div>
-         <table className="mt-5 border-collapse border border-gray-400 table-fixed">
+         <table className="mt-5 border-collapse table-fixed">
             <thead>
                <tr className={style.tr}>
                   <th
-                     className={`${style.th} border border-gray-300 text-center`}
+                     className={`${style.th} ${borderstyle} text-center`}
                   >
                      <Checkbox />
                   </th>
                   <th
-                     className={`${style.th} border border-gray-300`}
+                     className={`${style.th} ${borderstyle}`}
                      colSpan={2}
                   >
                      Product
                   </th>
-                  <th className={`${style.th} border border-gray-300`}>
+                  <th className={`${style.th} ${borderstyle}`}>
                      In Stock
                   </th>
-                  <th className={`${style.th} border border-gray-300`}>
+                  <th className={`${style.th} ${borderstyle}`}>
                      Category
                   </th>
-                  <th className={`${style.th} border border-gray-300`}>
+                  <th className={`${style.th} ${borderstyle}`}>
                      Price
                   </th>
-                  <th className={`${style.th} border border-gray-300`}>
+                  <th className={`${style.th} ${borderstyle}`}>
                      Action
                   </th>
                </tr>
@@ -213,27 +220,27 @@ export default function Stock() {
                {menuList.map((data) => (
                   <tr key={data.menuId} className={style.tr}>
                      <td
-                        className={`${style.td} border border-gray-300 text-center`}
+                        className={`${style.td} ${borderstyle} text-center`}
                      >
                         <Checkbox />
                      </td>
-                     <td className={`${style.td} border border-gray-300`}>
+                     <td className={`${style.td} ${borderstyle}`}>
                         <img src={data.imageUrl} alt="" />
                      </td>
-                     <td className={`${style.td} border border-gray-300`}>
+                     <td className={`${style.td} ${borderstyle}`}>
                         {data.menuName}
                      </td>
-                     <td className={`${style.td} border border-gray-300`}>
+                     <td className={`${style.td} ${borderstyle}`}>
                         {data.inventory.quantity}
                      </td>
-                     <td className={`${style.td} border border-gray-300`}>
+                     <td className={`${style.td} ${borderstyle}`}>
                         {data.category.categoryName}
                      </td>
-                     <td className={`${style.td} border border-gray-300`}>
+                     <td className={`${style.td} ${borderstyle}`}>
                         {data.price}$
                      </td>
                      <td
-                        className={`${style.td} border border-gray-300 text-center`}
+                        className={`${style.td} ${borderstyle} text-center`}
                      >
                         <DropdownMenu modal={false}>
                            <DropdownMenuTrigger asChild>

@@ -45,9 +45,9 @@ export default function MyPagination() {
    const pages = Array.from({ length: totalPages }, (_, i) => i);
    
    return (
-      <div className="flex sticky bottom-0 shadow-xl w-full bg-white items-center justify-between p-4">
+      <div className="flex sticky bottom-0 bg-gray-200/10 backdrop-blur-3xl shadow-xl w-full items-center justify-between p-4">
          <Pagination>
-            <PaginationContent className=" bg-white rounded-full p-3">
+            <PaginationContent className="rounded-full p-3">
                {/* Previous */}
                <PaginationItem>
                   <PaginationPrevious

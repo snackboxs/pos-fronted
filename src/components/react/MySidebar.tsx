@@ -18,14 +18,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import {
-   Home, Inbox,
+   Home,
+   Inbox,
    Cherry,
    ChevronUp,
    User2,
    Moon,
    Sun,
    ChartNoAxesColumn,
-   Plus
+   Plus,
 } from "lucide-react";
 
 import { useNavigate } from "react-router";
@@ -36,6 +37,7 @@ import { logoutUser } from "@/features/auth/authCheck";
 import { auth } from "@/features/auth/authCheck";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { Spinner } from "../ui/spinner";
+import { Link } from "react-router-dom";
 
 const menuItems = [
    { title: "Home", url: "/", icon: Home },
@@ -48,18 +50,15 @@ export default function MySidebar() {
    const location = useLocation();
    const isCurrentPage = location.pathname;
    const navigate = useNavigate();
-   const dispatch = useAppDispatch  ();
+   const dispatch = useAppDispatch();
    // const [auth, setAuth] = useState(true);
    const { user, isAuthenticate, isLoading } = useAppSelector(auth);
 
    const currentTheme = useSelector(theme);
    const newTheme = currentTheme === "light" ? "dark" : "light";
 
-   const activeClasses =
+   const activeClass =
       "bg-green-600 text-white shadow-lg hover:bg-green-700 hover:text-white";
-   const inactiveClasses =
-      "bg-white text-gray-800 hover:bg-gray-200 active:bg-gray-100";
-
    return (
       <>
          <Sidebar side="left" variant="sidebar" collapsible="icon">
@@ -80,22 +79,17 @@ export default function MySidebar() {
                                  asChild
                                  className={`${
                                     isCurrentPage === item.url
-                                       ? activeClasses
-                                       : inactiveClasses
+                                       ? activeClass
+                                       : "inactiveClasses"
                                  } `}
-                                 // onClick={() => setActiveLink(index)}
                               >
-                                 <a
-                                    // href="#"
-                                    onClick={() => {
-                                       navigate(`${item.url}`);
-                                       // dispatch(setActivePage(item.title));
-                                    }}
+                                 <Link
+                                    to={item.url}
                                     className="flex items-center gap-2"
                                  >
                                     <item.icon size={20} />
                                     <span>{item.title}</span>
-                                 </a>
+                                 </Link>
                               </SidebarMenuButton>
                            </SidebarMenuItem>
                         ))}
@@ -110,7 +104,8 @@ export default function MySidebar() {
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                            <SidebarMenuButton className="cursor-pointer">
-                              <User2 /> {user?.userName}
+                              <User2 /> 
+                              <p className="pl-2">{user ? user?.userName : "Micle"}</p>
                               <ChevronUp className="ml-auto" />
                            </SidebarMenuButton>
                         </DropdownMenuTrigger>

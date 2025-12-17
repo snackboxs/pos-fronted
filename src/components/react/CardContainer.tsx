@@ -8,18 +8,7 @@ import { auth } from "@/features/auth/authCheck";
 
 export default function CardContainer() {
    const dispatch = useAppDispatch();
-   // const isAuth = useAppSelector(auth);
    const { menuList, status, error, page, size } = useAppSelector(selectCardData);
-   // console.log(menuList);
-
-   // useEffect(() => {
-   //    if (status === "idle") {
-   //       console.log(`Dispatching initial menu data fetch for page ${page}`);
-
-   //       // Dispatch the thunk using the current page/size from the Redux state
-   //       dispatch(fetchMenus({ page, size }));
-   //    }
-   // }, [dispatch, status, page, size, isAuth]);
 
    useEffect(() => {
       if (status === "idle") {

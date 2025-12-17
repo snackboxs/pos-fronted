@@ -59,10 +59,10 @@ export default function Login() {
          setError(result.payload || "Login failed");
       }
    };
-
+// UID25110001
    return (
       <div className="flex justify-center items-center h-screen">
-         <Card className="w-250 max-w-sm border-none shadow-none bg-white">
+         <Card className="w-250 max-w-sm border-none shadow-md">
             <CardHeader className="mb-5">
                <CardTitle className="font-imperialscript text-center text-2xl mb-2">
                   Log in

@@ -10,14 +10,16 @@ import {
 } from "../ui/card";
 import { Plus, Minus } from "lucide-react";
 import type { MenuData } from "@/types/backendData.types";
-import {
-   itemSelected
-} from "@/features/itemSelected/itemSelectedSlice";
+import { itemSelected } from "@/features/itemSelected/itemSelectedSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "@/features/auth/authCheck";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
-import { addProduct, cancleProduct } from "@/features/itemSelected/itemSelectedSlice";
+import {
+   addProduct,
+   cancleProduct,
+} from "@/features/itemSelected/itemSelectedSlice";
+import { theme } from "@/features/theme/themeSlice";
 
 interface MyCardProps {
    data: MenuData;
@@ -36,8 +38,8 @@ export default function MyCard({ data }: MyCardProps) {
    const selectedItems = useSelector(itemSelected);
    const isAuth = useSelector(auth);
    const navigate = useNavigate();
+   const currentTheme = useAppSelector(theme);
    // console.log(isAuth);
-   
 
    useEffect(() => {
       if (descriptionRef.current) {
@@ -95,41 +97,51 @@ export default function MyCard({ data }: MyCardProps) {
                </Button>
             )} */}
             {/* {user?.role === "CASHIER" && ( */}
-               <div className="flex w-full justify-between items-center">
-                  <Button
-                     className=" rounded-1 cursor-pointer bg-green-100 text-green-foreground hover:bg-green/80 active:bg-green-500"
-                     onClick={() => {
-                        const newCount = Math.max(count - 1, 0);
-                        setCount(newCount);
-                        dispatch(
-                           cancleProduct({
-                              ...data,
-                              selectedQuantity: newCount,
-                           })
-                        );
-                     }}
-                  >
-                     <Minus />
-                  </Button>
-                  <Button
-                     className="flex-1 mx-1 cursor-pointer"
-                     variant={"secondary"}
-                  >
-                     {count} / Add
-                  </Button>
-                  <Button
-                     className="rounded-1 cursor-pointer bg-green-100 text-green-foreground hover:bg-green/80 active:bg-green-500"
-                     onClick={() => {
-                        const newCount = Math.min(count + 1, inventory.quantity);
-                        setCount(newCount);
-                        dispatch(
-                           addProduct({ ...data, selectedQuantity: newCount })
-                        );
-                     }}
-                  >
-                     <Plus />
-                  </Button>
-               </div>
+            <div className="flex w-full justify-between items-center">
+               <Button
+                  className={
+                     currentTheme === "light"
+                        ? "rounded-1 cursor-pointer bg-green-100 text-green-foreground hover:bg-green/80 active:bg-green-500"
+                        : "cursor-pointer"
+                  }
+                  variant={currentTheme === "dark" ? "outline" : "default"}
+                  onClick={() => {
+                     const newCount = Math.max(count - 1, 0);
+                     setCount(newCount);
+                     dispatch(
+                        cancleProduct({
+                           ...data,
+                           selectedQuantity: newCount,
+                        })
+                     );
+                  }}
+               >
+                  <Minus />
+               </Button>
+               <Button
+                  className="flex-1 mx-1 cursor-pointer"
+                  variant={"secondary"}
+               >
+                  {count} / Add
+               </Button>
+               <Button
+                  className={
+                     currentTheme === "light"
+                        ? "rounded-1 cursor-pointer bg-green-100 text-green-foreground hover:bg-green/80 active:bg-green-500"
+                        : "cursor-pointer"
+                  }
+                  variant={currentTheme === "dark" ? "outline" : "default"}
+                  onClick={() => {
+                     const newCount = Math.min(count + 1, inventory.quantity);
+                     setCount(newCount);
+                     dispatch(
+                        addProduct({ ...data, selectedQuantity: newCount })
+                     );
+                  }}
+               >
+                  <Plus />
+               </Button>
+            </div>
             {/* )} */}
          </CardFooter>
       </Card>
