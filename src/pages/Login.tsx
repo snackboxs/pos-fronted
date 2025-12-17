@@ -1,16 +1,14 @@
 import { Button } from "../components/ui/button";
 import {
-   Card,
-   CardAction,
-   CardContent,
+   Card, CardContent,
    CardDescription,
    CardFooter,
    CardHeader,
-   CardTitle,
+   CardTitle
 } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
@@ -59,12 +57,12 @@ export default function Login() {
          setError(result.payload || "Login failed");
       }
    };
-// UID25110001
+   // UID25110001
    return (
       <div className="flex justify-center items-center h-screen">
-         <Card className="w-250 max-w-sm border-none shadow-md">
+         <Card className="w-[500px] max-w-sm border-none shadow-md px-2 py-5">
             <CardHeader className="mb-5">
-               <CardTitle className="font-imperialscript text-center text-2xl mb-2">
+               <CardTitle className="font-imperialscript text-center text-2xl mb-2 text-green-700">
                   Log in
                </CardTitle>
                <CardDescription>
@@ -80,12 +78,12 @@ export default function Login() {
                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex flex-col gap-6">
                      <div className="grid gap-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Email or UserId</Label>
                         <Input
                            {...register("email", { required: true })}
                            id="email"
                            type="text"
-                           placeholder="m@example.com"
+                           // placeholder="UserId"
                            required
                            onInput={() => setError(null)}
                         />
@@ -110,7 +108,8 @@ export default function Login() {
                      </div>
                      <Button
                         type="submit"
-                        className="w-full bg-blue-700 text-white cursor-pointer"
+                        className="w-full cursor-pointer"
+                        variant={"posDefault"}
                      >
                         {isLoading && <Spinner />}
                         {!isLoading && <>Login</>}
@@ -120,20 +119,23 @@ export default function Login() {
             </CardContent>
             <CardFooter className="flex-col gap-2">
                <Button
-                  variant="outline"
+                  // variant="outline"
                   className="w-full cursor-pointer"
                   disabled
                >
                   Continue with Google
                </Button>
-               <div className="flex items-center justify-between w-full">
+               <p className="mt-6 text-center text-xs italic text-muted-foreground/40">
+                  Welcome to Point of Sale System 
+               </p>
+               {/* <div className="flex items-center justify-between w-full">
                   <p>Don't you have account?</p>
                   <CardAction>
-                     <Button className="text-blue-700" variant="link">
+                     <Button className="text-blue-700" variant="link" onClick={() => navigate('/signup')}>
                         Sign Up
                      </Button>
                   </CardAction>
-               </div>
+               </div> */}
             </CardFooter>
          </Card>
       </div>

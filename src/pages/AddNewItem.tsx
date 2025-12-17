@@ -28,6 +28,17 @@ interface MenuData {
    quantity: number;
    uom: string;
 }
+import {
+   Select,
+   SelectContent,
+   SelectGroup,
+   SelectItem,
+   SelectLabel,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import { useCategory } from "@/hooks/useCategory";
 
 function MyInputGroup({ children }: React.ComponentProps<typeof InputGroup>) {
    return (
@@ -48,6 +59,13 @@ function MyInputGroup({ children }: React.ComponentProps<typeof InputGroup>) {
       </InputGroup>
    );
 }
+
+interface MyLabelProps {
+   lablename: string;
+   className?: string;
+   id: string;
+}
+
 function MyIconButton({
    children,
    onClick,
@@ -67,9 +85,12 @@ function MyIconButton({
       </InputGroupAddon>
    );
 }
-function MyLabel({ lablename }: { lablename: string }) {
+function MyLabel({ lablename, className, id }: MyLabelProps) {
    return (
-      <Label htmlFor="name" className="mt-5 pl-3">
+      <Label
+         htmlFor={id} // htmlFor မပါရင် default "name" ကို သုံးမယ်
+         className={cn("mt-5 pl-3 block", className)} // 'block' ထည့်ထားရင် Layout စီရတာ ပိုလွယ်ပါတယ်
+      >
          {lablename}
       </Label>
    );
@@ -85,11 +106,13 @@ export default function AddNewItem() {
    const { status: s } = useAppSelector(selectStockData);
    const { status: c } = useAppSelector(selectCardData);
    const dispatch = useAppDispatch();
+   const { data, isLoading, isError } = useCategory();
 
    const {
       register,
       handleSubmit,
       reset,
+      setValue,
       formState: { errors },
    } = useForm<MenuData>({
       defaultValues: { menuName: "Name" },
@@ -190,6 +213,11 @@ export default function AddNewItem() {
          setError(true);
       }
    };
+
+   if (isLoading) return <p>Loading...</p>;
+   if (isError) return <p>Error...</p>;
+
+   const categories = data || [];
    return (
       <>
          <div className="mt-5 flex">
@@ -219,9 +247,9 @@ export default function AddNewItem() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                <div className="max-w-lg min-w-sm relative">
-                  <div className="shadow-md hover:shadow-xl p-2 hover:scale-105 transition-transform duration-300 rounded-md">
+                  <div className="shadow-md hover:shadow-xl p-2 transition-transform duration-300 rounded-md">
                      {/* CHANGE: MyLable -> MyLabel */}
-                     <MyLabel lablename="Name" />
+                     <MyLabel lablename="Name" id="name" />
                      <MyInputGroup>
                         <InputGroupInput
                            type="text"
@@ -234,7 +262,7 @@ export default function AddNewItem() {
                         </MyIconButton>
                      </MyInputGroup>
 
-                     <MyLabel lablename="Price" />
+                     <MyLabel lablename="Price" id="price" />
                      <MyInputGroup>
                         <InputGroupInput
                            type="number"
@@ -251,10 +279,11 @@ export default function AddNewItem() {
                         </MyIconButton>
                      </MyInputGroup>
 
-                     <MyLabel lablename="Description" />
+                     <MyLabel lablename="Description" id="description" />
                      <MyInputGroup>
                         <InputGroupTextarea
                            value={"Note"}
+                           id="description"
                            {...register("description", { required: true })}
                         />
                         <MyIconButton
@@ -264,7 +293,7 @@ export default function AddNewItem() {
                         </MyIconButton>
                      </MyInputGroup>
 
-                     <MyLabel lablename="Quantity" />
+                     <MyLabel lablename="Quantity" id="quantity" />
                      <MyInputGroup>
                         <InputGroupInput
                            type="number"
@@ -281,8 +310,12 @@ export default function AddNewItem() {
                         </MyIconButton>
                      </MyInputGroup>
 
-                     <MyLabel lablename="Category" />
-                     <MyInputGroup>
+                     <MyLabel
+                        lablename="Category"
+                        id="category"
+                        className="mb-3"
+                     />
+                     {/* <MyInputGroup>
                         <InputGroupInput
                            type="text"
                            value={"C002"}
@@ -292,7 +325,32 @@ export default function AddNewItem() {
                         <MyIconButton onClick={() => reset({ categoryId: "" })}>
                            <CircleX />
                         </MyIconButton>
-                     </MyInputGroup>
+                     </MyInputGroup> */}
+                     <Select
+                        onValueChange={(value) =>
+                           // react-hook-form ထဲ categoryId ထည့်
+                           setValue("categoryId", value)
+                        }
+                     >
+                        <SelectTrigger className="w-full">
+                           <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                           <SelectGroup>
+                              <SelectLabel>Categories</SelectLabel>
+
+                              {categories?.map((cat) => (
+                                 <SelectItem
+                                    key={cat.categoryId}
+                                    value={cat.categoryId} // ⭐ backend သို့ပို့မယ့် id
+                                 >
+                                    {cat.categoryName}
+                                 </SelectItem>
+                              ))}
+                           </SelectGroup>
+                        </SelectContent>
+                     </Select>
 
                      {/* CHANGE: Error message */}
                      {error && (

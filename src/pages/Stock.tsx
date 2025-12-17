@@ -381,6 +381,7 @@ export default function Stock() {
                         <Input
                            id="category"
                            type="text"
+                           disabled
                            {...register("category")}
                         />
                      </Field>

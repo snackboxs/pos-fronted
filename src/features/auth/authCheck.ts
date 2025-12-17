@@ -192,7 +192,7 @@ export const logoutUser = createAsyncThunk(
       localStorage.removeItem("authToken");
       localStorage.removeItem("auth");
 
-      dispatch(setTheme("light"));
+      // dispatch(setTheme("light"));
       return true;
    }
 );
@@ -262,6 +262,7 @@ export const authCheck = createSlice({
 
 // export const { LogOut } = authCheck.actions;
 export const auth = (state: RootState) => state.auth;
+export const token = (state: RootState) => state.auth.token;
 export default authCheck.reducer;
 
 //for backend cookie  token

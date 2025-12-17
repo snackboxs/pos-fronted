@@ -11,72 +11,7 @@ import {
 import Payment from "./Payment";
 import { itemSelected } from "../../features/itemSelected/itemSelectedSlice";
 import { useSelector } from "react-redux";
-
-const music = [
-   {
-      id: 1,
-      title: "Midnight City Lights",
-      artist: "$99",
-      album: "Electric Nights",
-      duration: "3:45",
-   },
-   {
-      id: 2,
-      title: "Coffee Shop Conversations",
-      artist: "$80",
-      album: "Urban Stories",
-      duration: "4:05",
-   },
-   {
-      id: 3,
-      title: "Digital Rain",
-      artist: "$30",
-      album: "Binary Beats",
-      duration: "3:30",
-   },
-   {
-      id: 4,
-      title: "Midnight City Lights",
-      artist: "$99",
-      album: "Electric Nights",
-      duration: "3:45",
-   },
-   {
-      id: 5,
-      title: "Coffee Shop Conversations",
-      artist: "$80",
-      album: "Urban Stories",
-      duration: "4:05",
-   },
-   {
-      id: 6,
-      title: "Digital Rain",
-      artist: "$30",
-      album: "Binary Beats",
-      duration: "3:30",
-   },
-   {
-      id: 7,
-      title: "Midnight City Lights",
-      artist: "$99",
-      album: "Electric Nights",
-      duration: "3:45",
-   },
-   {
-      id: 8,
-      title: "Coffee Shop Conversations",
-      artist: "$80",
-      album: "Urban Stories",
-      duration: "4:05",
-   },
-   {
-      id: 9,
-      title: "Digital Rain",
-      artist: "$30",
-      album: "Binary Beats",
-      duration: "3:30",
-   },
-];
+import { useAppSelector } from "@/hooks";
 
 function ItemImage() {
    const selectedData = useSelector(itemSelected);
@@ -124,7 +59,7 @@ function ItemImage() {
 }
 
 export default function OrderList() {
-   const selectedData = useSelector(itemSelected);
+   const selectedData = useAppSelector(itemSelected);
    const subTotal = selectedData.reduce(
       (total, data) => total + data.price * data.selectedQuantity,
       0
