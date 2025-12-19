@@ -21,12 +21,14 @@ export default function AdminDashboard() {
    const to = Math.min(page * rowsPerPage, total);
    // const data = useSelector(productData);
    const { data, isLoading, isError } = useSaleHistory();
-   console.log(data);
+   // console.log(data);
 
    if (isLoading) return <p>Loading...</p>;
    if (isError) return <p>Error...</p>;
    
    const saleData = data?.content || [];
+   // console.log(saleData);
+   
 
    return (
       <div className="flex flex-col relative h-full">

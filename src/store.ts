@@ -5,6 +5,7 @@ import { authCheck } from "./features/auth/authCheck";
 import itemSelectedReducer from "./features/itemSelected/itemSelectedSlice";
 import { dataSlice } from "./features/data/backendDataSlice";
 import { datleHandleSlice } from "./features/data/dataHandleSlice";
+import { fetchMenuIdSlice } from "./features/data/fetchMenuByIdSlice";
 
 export const store = configureStore({
    reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
       itemSelected: itemSelectedReducer,
       data: dataSlice.reducer,
       dataHandle: datleHandleSlice.reducer,
+      fetchMenuByIdData: fetchMenuIdSlice.reducer,
    },
 });
 
