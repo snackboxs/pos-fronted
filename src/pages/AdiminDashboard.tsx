@@ -1,39 +1,43 @@
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/ui/select";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useState } from "react";
-// import { productData } from "@/features/data/dataSlice";
-import { useSelector } from "react-redux";
-import style from "../css/AdminDashboard.module.css";
 import { useSaleHistory } from "@/hooks/useSaleHistory";
 import { SaleHistoryTable } from "@/components/react/SaleHistoryTable";
-
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { MessageSquareX } from "lucide-react";
 export default function AdminDashboard() {
    const [rowsPerPage, setRowsPerPage] = useState(5);
    const [page, setPage] = useState(1);
    const total = 50;
    const from = (page - 1) * rowsPerPage + 1;
    const to = Math.min(page * rowsPerPage, total);
-   // const data = useSelector(productData);
-   const { data, isLoading, isError } = useSaleHistory();
-   // console.log(data);
+   const { data, isLoading, isError, error } = useSaleHistory();
 
-   if (isLoading) return <p>Loading...</p>;
-   if (isError) return <p>Error...</p>;
-   
+   if (isLoading) {
+      return (
+         <div className="mt-5 flex flex-col items-center gap-4 justify-center">
+            <Button variant="outline" disabled size="sm">
+               <Spinner />
+               Loading...
+            </Button>
+         </div>
+      );
+   }
+   if (isError) {
+      return (
+         <div className="mt-5 flex flex-col items-center gap-4 justify-center">
+            <Button variant="outline" disabled size="sm">
+               <MessageSquareX /> {error?.message || "Something went wrong"}
+            </Button>
+         </div>
+      );
+   }
+
    const saleData = data?.content || [];
-   // console.log(saleData);
-   
 
    return (
       <div className="flex flex-col relative h-full">
          <div className="mt-5 flex-1 overflow-hidden">
-            <SaleHistoryTable data={saleData}/>
+            <SaleHistoryTable data={saleData} />
          </div>
       </div>
    );

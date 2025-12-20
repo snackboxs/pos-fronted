@@ -33,21 +33,6 @@ function Box({ className, children, isActive, onClick }: BoxProps) {
    );
 }
 
-// const categories = [
-//    { id: 1, name: "All", count: 26, icon: LayoutGrid },
-//    { id: 2, name: "Foods", count: 12, icon: Apple },
-//    { id: 3, name: "Drinks", count: 8, icon: Coffee },
-//    { id: 4, name: "All", count: 26, icon: LayoutGrid },
-//    { id: 5, name: "Foods", count: 12, icon: Apple },
-//    { id: 6, name: "Drinks", count: 8, icon: Coffee },
-//    { id: 7, name: "All", count: 26, icon: LayoutGrid },
-//    { id: 8, name: "Foods", count: 12, icon: Apple },
-//    { id: 9, name: "Drinks", count: 8, icon: Coffee },
-//    { id: 10, name: "All", count: 26, icon: LayoutGrid },
-//    { id: 11, name: "Foods", count: 12, icon: Apple },
-//    { id: 12, name: "Drinks", count: 8, icon: Coffee },
-// ];
-
 const iconMap: Record<string, LucideIcon> = {
    Drink: Coffee,
    Snack: Utensils,

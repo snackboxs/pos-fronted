@@ -26,7 +26,7 @@ import {
    Moon,
    Sun,
    ChartNoAxesColumn,
-   Plus,
+   Plus
 } from "lucide-react";
 
 import { useNavigate } from "react-router";
@@ -40,10 +40,16 @@ import { Spinner } from "../ui/spinner";
 import { Link } from "react-router-dom";
 
 const menuItems = [
-   { title: "Home", url: "/", icon: Home },
-   { title: "Analytics Overview", url: "/admin/dashboard", icon: Inbox },
-   { title: "Stock", url: "/stock", icon: ChartNoAxesColumn },
-   { title: "Add New Item", url: "/addnewitm", icon: Plus },
+   { title: "Home", url: "/", icon: Home, roles: ["ADMIN", "CASHIER"] },
+   {
+      title: "Analytics Overview",
+      url: "/admin/dashboard",
+      icon: Inbox,
+      roles: ["ADMIN"],
+   },
+   { title: "Stock", url: "/stock", icon: ChartNoAxesColumn, roles: ["ADMIN"] },
+   { title: "Add New Item", url: "/addnewitm", icon: Plus, roles: ["ADMIN"] },
+   // { title: "Account Control", url: "/acctrl", icon: UsersRound, roles: ["ADMIN"] },
 ];
 
 export default function MySidebar() {
@@ -53,12 +59,19 @@ export default function MySidebar() {
    const dispatch = useAppDispatch();
    // const [auth, setAuth] = useState(true);
    const { user, isAuthenticate, isLoading } = useAppSelector(auth);
+   const isRole = useAppSelector(auth);
+   const isAdmin = isRole.user?.role;
 
    const currentTheme = useSelector(theme);
    const newTheme = currentTheme === "light" ? "dark" : "light";
 
    const activeClass =
       "bg-green-600 text-white shadow-lg hover:bg-green-700 hover:text-white";
+
+   //filter user
+   const visibleMenuItems = menuItems.filter((item) =>
+      user ? item.roles.includes(user.role) : false
+   );
    return (
       <>
          <Sidebar side="left" variant="sidebar" collapsible="icon">
@@ -70,10 +83,9 @@ export default function MySidebar() {
             </SidebarHeader>
             <SidebarContent>
                <SidebarGroup>
-                  {/* <SidebarGroupLabel>Main</SidebarGroupLabel> */}
                   <SidebarGroupContent>
                      <SidebarMenu>
-                        {menuItems.map((item, index) => (
+                        {visibleMenuItems.map((item, index) => (
                            <SidebarMenuItem key={item.title}>
                               <SidebarMenuButton
                                  asChild
@@ -104,8 +116,10 @@ export default function MySidebar() {
                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                            <SidebarMenuButton className="cursor-pointer">
-                              <User2 /> 
-                              <p className="pl-2">{user ? user?.userName : "Micle"}</p>
+                              <User2 />
+                              <p className="pl-2">
+                                 {user ? user?.userName : "Micle"}
+                              </p>
                               <ChevronUp className="ml-auto" />
                            </SidebarMenuButton>
                         </DropdownMenuTrigger>

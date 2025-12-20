@@ -8,32 +8,17 @@ import {
    getPaginationRowModel,
    getSortedRowModel,
    useReactTable,
-   type ColumnDef,
    type ColumnFiltersState,
    type SortingState,
    type VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
-import {
-   Dialog,
-   DialogClose,
-   DialogContent,
-   DialogDescription,
-   DialogFooter,
-   DialogHeader,
-   DialogTitle,
-   DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
    DropdownMenu,
    DropdownMenuCheckboxItem,
    DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -59,6 +44,8 @@ import {
    fetchMenuByIdData,
    clearMenuDetail,
 } from "@/features/data/fetchMenuByIdSlice";
+import { getColumns } from "./saleHIstroryTable/columns";
+import DetailDialogBox from "./saleHIstroryTable/DetailDialogBox";
 
 interface SaleHistoryTableProps {
    data: SaleData[];
@@ -69,148 +56,43 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
    const menuDetail = useAppSelector(fetchMenuByIdData);
    const [sorting, setSorting] = React.useState<SortingState>([]);
    const [showDetailBox, setShowDetailBox] = React.useState(false);
+   const [isDetailLoading, setIsDetailLoading] = React.useState(false);
+   const [detailError, setDetailError] = React.useState<string | null>(null);
+   const [selectedSale, setSelectedSale] = React.useState<SaleData | null>(
+      null
+   );
    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
       []
    );
+
    const [columnVisibility, setColumnVisibility] =
       React.useState<VisibilityState>({});
    const [rowSelection, setRowSelection] = React.useState({});
 
-   // console.log(menuDetail);
-   // console.log("menuDetail");
+   const handleViewDetails = async (params: SaleData) => {
+      try {
+         setSelectedSale(params);
+         setShowDetailBox(true); // Dialog ကို အရင်ဖွင့်
+         setIsDetailLoading(true);
+         setDetailError(null);
+         dispatch(clearMenuDetail());
+         await Promise.all(
+            params.items.map((item) =>
+               dispatch(fetchMenuById(item.menuId)).unwrap()
+            )
+         );
+      } catch (err: any) {
+         console.error("Failed to fetch menus", err);
+         setDetailError(err?.message || "Failed to load sale details");
+      } finally {
+         setIsDetailLoading(false);
+      }
+   };
 
-   //   console.log("sale data", data );
-   // console.log(data);
-
-   const columns: ColumnDef<SaleData>[] = [
-      {
-         id: "select",
-         header: ({ table }) => (
-            <Checkbox
-               checked={
-                  table.getIsAllPageRowsSelected() ||
-                  (table.getIsSomePageRowsSelected() && "indeterminate")
-               }
-               onCheckedChange={(value) =>
-                  table.toggleAllPageRowsSelected(!!value)
-               }
-               aria-label="Select all"
-            />
-         ),
-         cell: ({ row }) => (
-            <Checkbox
-               checked={row.getIsSelected()}
-               onCheckedChange={(value) => row.toggleSelected(!!value)}
-               aria-label="Select row"
-            />
-         ),
-         enableSorting: false,
-         enableHiding: false,
-      },
-      {
-         accessorKey: "salesId", // 'invoiceNo' အစား 'salesId' လို့ ပြောင်းပါ
-         header: "Sale ID",
-         cell: ({ row }) => <div>{row.getValue("salesId")}</div>,
-      },
-      {
-         accessorKey: "saleDate",
-         header: "Date",
-         cell: ({ row }) => <div>{row.getValue("saleDate")}</div>,
-      },
-      {
-         accessorKey: "subTotal",
-         header: "Sub Total",
-         cell: ({ row }) => (
-            <div className="font-medium">${row.getValue("subTotal")}</div>
-         ),
-      },
-      {
-         accessorKey: "taxs",
-         header: "Total Tax",
-         cell: ({ row }) => {
-            const taxes = row.original.taxs || [];
-            // Tax array ထဲက taxAmount အားလုံးကို ပေါင်းလိုက်တာပါ
-            const totalTax = taxes.reduce(
-               (acc, curr) => acc + curr.taxAmount,
-               0
-            );
-            return <div>${totalTax.toFixed(3)}</div>;
-         },
-      },
-      {
-         accessorKey: "totalAmount",
-         header: () => <div>Total Amount</div>,
-         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("totalAmount"));
-            return (
-               <div className="font-bold text-green-600">
-                  ${amount.toFixed(3)}
-               </div>
-            );
-         },
-      },
-      {
-         accessorKey: "createdBy",
-         header: "Cashier",
-         cell: ({ row }) => <div>{row.original.createdBy.userName}</div>,
-      },
-      {
-         id: "actions",
-         enableHiding: false,
-         cell: ({ row, table }) => {
-            const payment = row.original;
-
-            return (
-               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                     <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal />
-                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                     <DropdownMenuItem
-                        onClick={() =>
-                           navigator.clipboard.writeText(payment.salesId)
-                        }
-                     >
-                        Copy payment ID
-                     </DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem>View customer</DropdownMenuItem>
-                     <DropdownMenuItem
-                        onClick={async () => {
-                           try {
-                              dispatch(clearMenuDetail()); // clear old data
-                              // console.log(Promise);
-
-                              // fetch all menus
-                              await Promise.all(
-                                 payment.items.map((item) => {
-                                    // console.log(item);
-
-                                    dispatch(
-                                       fetchMenuById(item.menuId)
-                                    ).unwrap();
-                                 })
-                              );
-
-                              // dialog open
-                              setShowDetailBox(true);
-                           } catch (err) {
-                              console.error("Failed to fetch menus", err);
-                           }
-                        }}
-                     >
-                        View details
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
-            );
-         },
-      },
-   ];
+   const columns = React.useMemo(
+      () => getColumns(handleViewDetails),
+      [handleViewDetails]
+   );
 
    const table = useReactTable({
       data,
@@ -233,6 +115,9 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
          openDetail: () => setShowDetailBox(true),
       },
    });
+   console.log("data");
+
+   console.log(data);
 
    return (
       <div className="w-full">
@@ -372,43 +257,14 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
                </Button>
             </div>
          </div>
-         <Dialog open={showDetailBox} onOpenChange={setShowDetailBox}>
-            <DialogContent className="w-[500px]">
-               <DialogTitle>Sale Details</DialogTitle>
-               <DialogDescription>
-                  Here are the details of the sale items.
-               </DialogDescription>
-
-               <div className="space-y-2 mt-4">
-                  {menuDetail.length > 0 ? (
-                     menuDetail.map((item, index) => {
-                        // If the slice stores the whole response, access menu.data
-                        const menu = item;
-                        // console.log(menu.data);
-                        
-                        return (
-                           <div key={index} className="mb-4">
-                              <p className="font-medium">
-                                 Name: {menu.menuName}
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                 Price: {menu.price}
-                              </p>
-                           </div>
-                        );
-                     })
-                  ) : (
-                     <p>No items found.</p>
-                  )}
-               </div>
-
-               <DialogFooter className="mt-4">
-                  <DialogClose asChild>
-                     <Button variant="outline">Close</Button>
-                  </DialogClose>
-               </DialogFooter>
-            </DialogContent>
-         </Dialog>
+         <DetailDialogBox
+            open={showDetailBox}
+            setOpen={setShowDetailBox}
+            menuDetail={menuDetail}
+            loading={isDetailLoading}
+            error={detailError}
+            sale={selectedSale}
+         />
       </div>
    );
 }

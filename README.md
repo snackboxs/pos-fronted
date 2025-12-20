@@ -100,9 +100,10 @@ You must clone and run the backend service first, following its repository instr
     ```
     **Test Account**
     ```bash
-        userId: UID25110001
-        password: hello
+    userId: UID25110001
+    password: hello
     ```
+    
 ## Thank You
 
 Thank you for taking the time to review this project. Your interest is greatly appreciated!
