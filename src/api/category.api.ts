@@ -1,4 +1,3 @@
-// api/category.api.ts
 import type { Category } from "@/types/category.types.ts";
 
 export const fetchAllCategory = async (token: string): Promise<Category[]> => {

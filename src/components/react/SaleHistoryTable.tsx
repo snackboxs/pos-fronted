@@ -46,6 +46,8 @@ import {
 } from "@/features/data/fetchMenuByIdSlice";
 import { getColumns } from "./saleHIstroryTable/columns";
 import DetailDialogBox from "./saleHIstroryTable/DetailDialogBox";
+import { exportSalesToExcelAsync } from "./saleHIstroryTable/excel";
+import type { MenuData } from "@/types/backendData.types";
 
 interface SaleHistoryTableProps {
    data: SaleData[];
@@ -89,6 +91,16 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
       }
    };
 
+   const menuDetailsMap: Record<string, MenuData[]> = {};
+   data.forEach((sale) => {
+      // Sale items နဲ့ match ဖြစ်တဲ့ menuDetail ကို pick
+      const menusForSale = sale.items
+         .map((item) => menuDetail.find((menu) => menu.menuId === item.menuId))
+         .filter((m): m is MenuData => !!m); // null/undefined ဖယ်
+
+      menuDetailsMap[sale.salesId] = menusForSale;
+   });
+
    const columns = React.useMemo(
       () => getColumns(handleViewDetails),
       [handleViewDetails]
@@ -115,9 +127,6 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
          openDetail: () => setShowDetailBox(true),
       },
    });
-   console.log("data");
-
-   console.log(data);
 
    return (
       <div className="w-full">
@@ -257,6 +266,12 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
                </Button>
             </div>
          </div>
+         <Button
+            onClick={() => exportSalesToExcelAsync(data, dispatch)}
+            className="ml-2 bg-blue-600 text-white hover:bg-blue-700 mt-4"
+         >
+            Export to Excel
+         </Button>
          <DetailDialogBox
             open={showDetailBox}
             setOpen={setShowDetailBox}

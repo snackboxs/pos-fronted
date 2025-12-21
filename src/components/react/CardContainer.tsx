@@ -5,6 +5,7 @@ import { fetchMenus, selectCardData } from "@/features/data/backendDataSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect } from "react";
 import { auth } from "@/features/auth/authCheck";
+import { Loading } from "./pos-ui/Loading";
 
 export default function CardContainer() {
    const dispatch = useAppDispatch();
@@ -18,9 +19,7 @@ export default function CardContainer() {
 
    if (status === "loading") {
       return (
-         <div className="mt-5 text-center p-10 text-xl font-semibold text-blue-500">
-            Loading menu items... ⏳
-         </div>
+         <Loading />
       );
    }
 

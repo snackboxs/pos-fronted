@@ -12,11 +12,16 @@ import Payment from "./Payment";
 import { itemSelected } from "../../features/itemSelected/itemSelectedSlice";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "@/hooks";
+import { UsePostSaleData } from "@/hooks/usePostSaleData.tsx";
+import { Loading } from "./pos-ui/Loading";
+import { Spinner } from "../ui/spinner";
+import toast from "react-hot-toast";
+import { Check, CircleX } from "lucide-react";
+import type { SaleRequest } from "@/types/sale.types";
 
 function ItemImage() {
    const selectedData = useSelector(itemSelected);
-   console.log(selectedData);
-   
+
    return (
       <div className="flex w-full max-w-md flex-col gap-6">
          <ItemGroup className="gap-2">
@@ -60,6 +65,26 @@ function ItemImage() {
 
 export default function OrderList() {
    const selectedData = useAppSelector(itemSelected);
+   const {
+      mutate: postSale,
+      isPending,
+      isError,
+      error,
+      isSuccess,
+   } = UsePostSaleData();
+
+   const handlePlaceOrder = () => {
+      const body: SaleRequest = {
+         items: selectedData.map((item) => ({
+            menuId: item.menuId,
+            quantity: item.selectedQuantity,
+         })),
+         taxIds: ["TAX25110001"], 
+      };
+
+      postSale(body); 
+   };
+
    const subTotal = selectedData.reduce(
       (total, data) => total + data.price * data.selectedQuantity,
       0
@@ -67,6 +92,7 @@ export default function OrderList() {
    const taxRate = 0.05; // 5%
    const tax = subTotal * taxRate;
    const totalAmount = subTotal + tax;
+
    return (
       <>
          <h2 className="text-xl font-semibold mb-4 p-2 mt-2">Table</h2>
@@ -97,8 +123,12 @@ export default function OrderList() {
             <div className="grid grid-cols-3 gap-3 mt-3">
                <Payment />
             </div>
-            <Button className="w-full mt-5 text-white bg-green-600 hover:bg-green-700 active:bg-green-600">
-               Place Order
+            <Button
+               onClick={handlePlaceOrder}
+               disabled={isPending}
+               className="w-full mt-5 text-white bg-green-600 hover:bg-green-700 active:bg-green-600"
+            >
+               {isPending ? <Spinner /> : "Place Order"}
             </Button>
          </div>
       </>

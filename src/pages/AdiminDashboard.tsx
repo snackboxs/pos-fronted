@@ -4,6 +4,8 @@ import { SaleHistoryTable } from "@/components/react/SaleHistoryTable";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { MessageSquareX } from "lucide-react";
+import { Loading } from "@/components/react/pos-ui/Loading";
+
 export default function AdminDashboard() {
    const [rowsPerPage, setRowsPerPage] = useState(5);
    const [page, setPage] = useState(1);
@@ -14,12 +16,7 @@ export default function AdminDashboard() {
 
    if (isLoading) {
       return (
-         <div className="mt-5 flex flex-col items-center gap-4 justify-center">
-            <Button variant="outline" disabled size="sm">
-               <Spinner />
-               Loading...
-            </Button>
-         </div>
+         <Loading />
       );
    }
    if (isError) {

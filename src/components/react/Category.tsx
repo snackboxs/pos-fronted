@@ -46,11 +46,9 @@ export default function Category() {
    
    if (isLoading) return <p>Loading...</p>;
    if (isError) return <p>Error...</p>;
-   console.log(data);
 
    const categories = data || [];
    // console.log( categories + "categories");
-   console.log("Categories:", categories);
 
    return (
       <div className="mt-18 absolute right-0 left-0 flex gap-5 overflow-x-scroll p-3 thin-scrollbar">
