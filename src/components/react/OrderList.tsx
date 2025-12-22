@@ -94,12 +94,12 @@ export default function OrderList() {
    const totalAmount = subTotal + tax;
 
    return (
-      <>
+      <div className=" h-full">
          <h2 className="text-xl font-semibold mb-4 p-2 mt-2">Table</h2>
-         <div className=" w-full p-2 flex-1 overflow-y-auto thin-scrollbar">
+         <div className=" w-full p-2 h-[calc(100%-350px)] overflow-y-auto thin-scrollbar">
             <ItemImage />
          </div>
-         <div className=" w-full bg-transparent p-4">
+         <div className=" w-full bg-gray-200/10 backdrop-blur-3xl p-4 absolute bottom-0">
             {/* style={{ height: 200 }} */}
             <ItemGroup className="bg-secondary rounded-xl">
                <Item>
@@ -131,6 +131,6 @@ export default function OrderList() {
                {isPending ? <Spinner /> : "Place Order"}
             </Button>
          </div>
-      </>
+      </div>
    );
 }

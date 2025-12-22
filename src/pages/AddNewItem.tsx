@@ -220,7 +220,7 @@ export default function AddNewItem() {
    const categories = data || [];
    return (
       <>
-         <div className="mt-5 flex">
+         <div className="mt-5 lg:flex">
             <div className="mr-10 h-fit w-[310px] p-[10px] flex flex-col items-center shadow-md rounded-md hover:shadow-xl hover:scale-101 transition-transform duration-300">
                <img
                   src={imageSrc || `/src/images/addimg.png`}

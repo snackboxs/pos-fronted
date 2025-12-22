@@ -48,6 +48,7 @@ import { getColumns } from "./saleHIstroryTable/columns";
 import DetailDialogBox from "./saleHIstroryTable/DetailDialogBox";
 import { exportSalesToExcelAsync } from "./saleHIstroryTable/excel";
 import type { MenuData } from "@/types/backendData.types";
+import { Spinner } from "../ui/spinner";
 
 interface SaleHistoryTableProps {
    data: SaleData[];
@@ -60,6 +61,7 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
    const [showDetailBox, setShowDetailBox] = React.useState(false);
    const [isDetailLoading, setIsDetailLoading] = React.useState(false);
    const [detailError, setDetailError] = React.useState<string | null>(null);
+   const [isExporting, setIsExporting] = React.useState(false);
    const [selectedSale, setSelectedSale] = React.useState<SaleData | null>(
       null
    );
@@ -128,6 +130,16 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
       },
    });
 
+   const handleExportToExcel = async () => {
+      try {
+         setIsExporting(true); // start spinner
+         await exportSalesToExcelAsync(data, dispatch);
+      } catch (err) {
+         console.error("Export failed", err);
+      } finally {
+         setIsExporting(false); // stop spinner
+      }
+   };
    return (
       <div className="w-full">
          <div className="flex items-center py-4">
@@ -267,10 +279,11 @@ export function SaleHistoryTable({ data }: SaleHistoryTableProps) {
             </div>
          </div>
          <Button
-            onClick={() => exportSalesToExcelAsync(data, dispatch)}
+            onClick={handleExportToExcel}
+             disabled={isExporting}
             className="ml-2 bg-blue-600 text-white hover:bg-blue-700 mt-4"
          >
-            Export to Excel
+            {isExporting ? <Spinner /> : "Export to Excel"}
          </Button>
          <DetailDialogBox
             open={showDetailBox}

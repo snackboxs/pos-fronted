@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useCategory } from "@/hooks/useCategory";
+import { Spinner } from "../ui/spinner";
 
 interface BoxProps {
    children: React.ReactNode;
@@ -44,7 +45,7 @@ export default function Category() {
    const [activeIndex, setActiveIndex] = useState(0);
    const { data, isLoading, isError } = useCategory();
    
-   if (isLoading) return <p>Loading...</p>;
+   if (isLoading) return <Spinner />;
    if (isError) return <p>Error...</p>;
 
    const categories = data || [];
